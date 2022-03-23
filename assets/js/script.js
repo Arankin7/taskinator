@@ -57,6 +57,8 @@ var completeEditTask = function(taskName, taskType, taskId){
         }
     }
 
+    saveTasks();
+
     alert("Task Updated");
 
     // resets the form, otherwise we'd just be editing the same task over and over again
@@ -83,6 +85,8 @@ var createTaskEl = function(taskDataObj){
     taskDataObj.id = taskIdCounter;
 
     tasks.push(taskDataObj);
+
+    saveTasks();
 
     var taskActionsEl = createTaskActions(taskIdCounter);
     listItemEl.appendChild(taskActionsEl);
@@ -153,7 +157,6 @@ var taskStatusChangeHandler = function(event) {
         }
     }
 
-    console.log(tasks);
 
     if (statusValue === "to do"){
         taskToDoEl.appendChild(taskSelected);
@@ -164,6 +167,8 @@ var taskStatusChangeHandler = function(event) {
     else if (statusValue === "completed"){
         tasksCompletedE1.appendChild(taskSelected);
     }
+
+    saveTasks();
 };
 
 var taskButtonHandler = function(event){
@@ -215,6 +220,12 @@ var deleteTask = function(taskId){
     }
     // Reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr; 
+
+    saveTasks();
+}
+
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));    
 }
 
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
